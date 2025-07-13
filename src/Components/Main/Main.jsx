@@ -224,7 +224,6 @@
 // }
 
 // export default Main;
-
 import { useState, useRef, useEffect } from "react";
 import { URL } from "../Constants/Constants";
 import Answers from "../Answers/Answers";
@@ -235,6 +234,19 @@ function Main() {
   const [chats, setChats] = useState([]);
   const [showSidebar, setShowSidebar] = useState(false);
   const messagesEndRef = useRef(null);
+
+  // 👇 Fix mobile height
+  useEffect(() => {
+    const setRealHeight = () => {
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty("--vh", `${vh}px`);
+    };
+
+    setRealHeight();
+    window.addEventListener("resize", setRealHeight);
+
+    return () => window.removeEventListener("resize", setRealHeight);
+  }, []);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -370,9 +382,10 @@ function Main() {
           ChatBot AI
         </div>
 
+        {/* ✅ Fixed Height Scrollable Area */}
         <div
           className="text-white overflow-y-auto pl-5 pr-5 pt-5 pb-28"
-          style={{ height: "calc(100dvh - 7rem)" }}
+          style={{ height: "calc((var(--vh, 1vh) * 100) - 7rem)" }}
         >
           {result.length === 0 && (
             <div className="flex flex-col items-center justify-center h-full text-center text-white">

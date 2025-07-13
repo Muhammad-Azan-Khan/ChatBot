@@ -242,7 +242,13 @@ function Main() {
       document.getElementById("chat-wrapper").style.height = `${appHeight}px`;
     };
 
+    // First call
     updateHeight();
+
+    // Second call after short delay (fixes mobile scroll bug)
+    setTimeout(updateHeight, 300);
+
+    // Update on resize
     window.addEventListener("resize", updateHeight);
 
     return () => window.removeEventListener("resize", updateHeight);

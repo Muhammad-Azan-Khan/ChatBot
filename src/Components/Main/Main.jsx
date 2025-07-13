@@ -305,8 +305,10 @@ function Main() {
   };
 
   return (
-    <div className="h-screen w-screen overflow-hidden grid grid-cols-5">
-      {/* Mobile toggle button */}
+    <div
+      className="grid grid-cols-5 text-center overflow-hidden"
+      style={{ height: "100dvh" }}
+    >
       <button
         onClick={() => setShowSidebar(true)}
         className="sm:hidden fixed top-2 left-2 bg-zinc-800 text-white p-1 rounded-lg z-50"
@@ -314,13 +316,13 @@ function Main() {
         ☰
       </button>
 
-      {/* Sidebar */}
       <div
         className={`${
           showSidebar
-            ? "absolute top-0 left-0 h-screen w-full sm:relative sm:w-auto sm:h-auto"
+            ? "absolute top-0 left-0 w-full sm:relative sm:w-auto"
             : "hidden sm:block"
         } z-40 bg-gradient-to-b from-[#2b2b2b] via-[#1f1f1f] to-[#0f0f0f] text-white pt-4 px-4 col-span-1`}
+        style={{ height: "100dvh" }}
       >
         <div className="flex flex-col items-center mt-4 space-y-4">
           <button
@@ -332,7 +334,7 @@ function Main() {
 
           <button
             onClick={startNewChat}
-            className="mt-10 bg-gradient-to-r from-[#0f766e] to-[#10b981] hover:from-[#065f46] hover:to-[#047857] transition-all duration-300 cursor-pointer text-white font-semibold py-2 px-6 rounded-xl"
+            className="mt-10 bg-gradient-to-r from-[#0f766e] to-[#10b981] hover:from-[#065f46] hover:to-[#047857]  transition-all duration-300 cursor-pointer text-white font-semibold py-2 px-6 rounded-xl "
           >
             New Chat +
           </button>
@@ -368,14 +370,14 @@ function Main() {
         </div>
       </div>
 
-      {/* Main Chat Area */}
-      <div className="col-span-5 sm:col-span-4 flex flex-col h-screen">
-        {/* Header */}
+      <div
+        className="col-span-5 sm:col-span-4 flex flex-col"
+        style={{ height: "100dvh" }}
+      >
         <div className="shrink-0 sticky top-0 z-30 backdrop-blur-md bg-white/10 bg-gradient-to-br from-[#1a1a1a] via-[#0f0f0f] to-[#000000] text-white py-3 px-5 font-semibold text-2xl">
           ChatBot AI
         </div>
 
-        {/* Chat messages */}
         <div className="flex-grow overflow-y-auto pl-5 pr-5 pt-5 pb-28">
           {result.length === 0 && (
             <div className="flex flex-col items-center justify-center h-full text-center text-white">
@@ -417,13 +419,12 @@ function Main() {
           </ul>
         </div>
 
-        {/* Input Area */}
         <div className="shrink-0 sticky bottom-0 bg-none pt-4 pb-4 px-4">
           <div className="bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-700 w-full sm:w-[90%] md:w-1/2 h-14 p-1 pr-5 text-white mx-auto rounded-4xl border border-zinc-700 flex">
             <input
               type="text"
               placeholder="Ask me anything..."
-              className="w-full h-full p-3 outline-none bg-transparent text-white placeholder-zinc-400"
+              className="w-full h-full p-3 outline-none bg-transparent text-white placeholder-zinc-400 "
               onChange={handleQuestion}
               value={question}
               onKeyDown={(e) => {

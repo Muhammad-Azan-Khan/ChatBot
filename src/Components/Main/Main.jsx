@@ -237,15 +237,15 @@ function Main() {
 
   // 👇 Fix mobile height
   useEffect(() => {
-    const setRealHeight = () => {
-      const vh = window.innerHeight * 0.01;
-      document.documentElement.style.setProperty("--vh", `${vh}px`);
+    const updateHeight = () => {
+      const appHeight = window.innerHeight;
+      document.getElementById("chat-wrapper").style.height = `${appHeight}px`;
     };
 
-    setRealHeight();
-    window.addEventListener("resize", setRealHeight);
+    updateHeight();
+    window.addEventListener("resize", updateHeight);
 
-    return () => window.removeEventListener("resize", setRealHeight);
+    return () => window.removeEventListener("resize", updateHeight);
   }, []);
 
   useEffect(() => {
@@ -317,7 +317,10 @@ function Main() {
   };
 
   return (
-    <div className="grid grid-cols-5 h-screen text-center relative overflow-hidden">
+    <div
+      id="chat-wrapper"
+      className="grid grid-cols-5 text-center relative overflow-hidden"
+    >
       <button
         onClick={() => setShowSidebar(true)}
         className="sm:hidden fixed top-2 left-2 bg-zinc-800 text-white p-1 rounded-lg z-50"
@@ -385,7 +388,7 @@ function Main() {
         {/* ✅ Fixed Height Scrollable Area */}
         <div
           className="text-white overflow-y-auto pl-5 pr-5 pt-5 pb-28"
-          style={{ height: "calc((var(--vh, 1vh) * 100) - 7rem)" }}
+          style={{ height: "calc(100% - 7rem)" }}
         >
           {result.length === 0 && (
             <div className="flex flex-col items-center justify-center h-full text-center text-white">

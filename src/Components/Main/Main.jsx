@@ -224,6 +224,7 @@
 // }
 
 // export default Main;
+
 import { useState, useRef, useEffect } from "react";
 import { URL } from "../Constants/Constants";
 import Answers from "../Answers/Answers";
@@ -234,25 +235,6 @@ function Main() {
   const [chats, setChats] = useState([]);
   const [showSidebar, setShowSidebar] = useState(false);
   const messagesEndRef = useRef(null);
-
-  // 👇 Fix mobile height
-  useEffect(() => {
-    const updateHeight = () => {
-      const appHeight = window.innerHeight;
-      document.getElementById("chat-wrapper").style.height = `${appHeight}px`;
-    };
-
-    // First call
-    updateHeight();
-
-    // Second call after short delay (fixes mobile scroll bug)
-    setTimeout(updateHeight, 300);
-
-    // Update on resize
-    window.addEventListener("resize", updateHeight);
-
-    return () => window.removeEventListener("resize", updateHeight);
-  }, []);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -323,16 +305,16 @@ function Main() {
   };
 
   return (
-    <div
-      id="chat-wrapper"
-      className="grid grid-cols-5 text-center relative overflow-hidden"
-    >
+    <div className="h-screen w-screen overflow-hidden grid grid-cols-5">
+      {/* Mobile toggle button */}
       <button
         onClick={() => setShowSidebar(true)}
         className="sm:hidden fixed top-2 left-2 bg-zinc-800 text-white p-1 rounded-lg z-50"
       >
         ☰
       </button>
+
+      {/* Sidebar */}
       <div
         className={`${
           showSidebar
@@ -350,7 +332,7 @@ function Main() {
 
           <button
             onClick={startNewChat}
-            className="mt-10 bg-gradient-to-r from-[#0f766e] to-[#10b981] hover:from-[#065f46] hover:to-[#047857]  transition-all duration-300 cursor-pointer text-white font-semibold py-2 px-6 rounded-xl "
+            className="mt-10 bg-gradient-to-r from-[#0f766e] to-[#10b981] hover:from-[#065f46] hover:to-[#047857] transition-all duration-300 cursor-pointer text-white font-semibold py-2 px-6 rounded-xl"
           >
             New Chat +
           </button>
@@ -386,16 +368,15 @@ function Main() {
         </div>
       </div>
 
-      <div className="col-span-5 sm:col-span-4 flex flex-col">
-        <div className="sticky top-0 z-30 backdrop-blur-md bg-white/10 bg-gradient-to-br from-[#1a1a1a] via-[#0f0f0f] to-[#000000] text-white py-3 px-5 font-semibold text-2xl ">
+      {/* Main Chat Area */}
+      <div className="col-span-5 sm:col-span-4 flex flex-col h-screen">
+        {/* Header */}
+        <div className="shrink-0 sticky top-0 z-30 backdrop-blur-md bg-white/10 bg-gradient-to-br from-[#1a1a1a] via-[#0f0f0f] to-[#000000] text-white py-3 px-5 font-semibold text-2xl">
           ChatBot AI
         </div>
 
-        {/* ✅ Fixed Height Scrollable Area */}
-        <div
-          className="text-white overflow-y-auto pl-5 pr-5 pt-5 pb-28"
-          style={{ height: "calc(100% - 7rem)" }}
-        >
+        {/* Chat messages */}
+        <div className="flex-grow overflow-y-auto pl-5 pr-5 pt-5 pb-28">
           {result.length === 0 && (
             <div className="flex flex-col items-center justify-center h-full text-center text-white">
               <img
@@ -432,17 +413,17 @@ function Main() {
                 </li>
               );
             })}
-
             <div ref={messagesEndRef} />
           </ul>
         </div>
 
-        <div className="sticky bottom-0 bg-none pt-4 pb-4 px-4 ">
+        {/* Input Area */}
+        <div className="shrink-0 sticky bottom-0 bg-none pt-4 pb-4 px-4">
           <div className="bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-700 w-full sm:w-[90%] md:w-1/2 h-14 p-1 pr-5 text-white mx-auto rounded-4xl border border-zinc-700 flex">
             <input
               type="text"
               placeholder="Ask me anything..."
-              className="w-full h-full p-3 outline-none bg-transparent text-white placeholder-zinc-400 "
+              className="w-full h-full p-3 outline-none bg-transparent text-white placeholder-zinc-400"
               onChange={handleQuestion}
               value={question}
               onKeyDown={(e) => {
